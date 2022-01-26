@@ -2,8 +2,8 @@ import axios from "axios";
 
 
 const URL_PREFIX = 
-// "https://pocket-rascal-server.herokuapp.com/api"
-"http://localhost:3005/api"
+"https://pocketrascalserver.herokuapp.com/api"
+// "http://localhost:3005/api"
 const API = {
     verify: (tkn)=>{
         return axios.get(`${URL_PREFIX}/user/verify`,{headers:{

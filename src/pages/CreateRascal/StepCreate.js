@@ -17,7 +17,7 @@ import { makeStyles } from '@mui/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import Carousel from "react-material-ui-carousel";
-import API from "../../../utils/API"
+import API from "./../../utils/API"
 import AppContext from "./../../AppContext";
 import './stepstyle.css'
 
@@ -313,9 +313,10 @@ export default function VerticalLinearStepper() {
 
   const [open, setOpen] = useState(true);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
+  
   const handleClickClose = () => {
     setOpen(false);
   };

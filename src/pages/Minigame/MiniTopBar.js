@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import Navigation from '../../Navigation';
-import AppContext from "./../../AppContext";
+import Navigation from './../Navigation';
+import AppContext from "../../AppContext";
 
 
 export default function MiniTopBar() {

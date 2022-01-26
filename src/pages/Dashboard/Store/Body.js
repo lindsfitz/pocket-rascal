@@ -3,9 +3,9 @@ import IconButton from "@mui/material/IconButton";
 import Snackbar from "@mui/material/Snackbar";
 import CloseIcon from "@mui/icons-material/Close";
 import Button from "@mui/material/Button";
-import API from "../../../../utils/API";
+import API from "../../../utils/API";
 import "./store.css";
-import AppContext from "./../../../AppContext";
+import AppContext from "../../../AppContext";
 
 const bodyData = [
   {

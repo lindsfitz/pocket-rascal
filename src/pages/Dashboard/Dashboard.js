@@ -2,6 +2,8 @@ import React,{useState, useEffect, useContext } from 'react';
 import StatusBar from './StatusBars'
 import BottomNav from './BottomNav';
 import Scene from './Scene'
+// import myScene from './myScene';
+// import SceneFunc from './SceneFunc';
 import AppContext from "./../../AppContext";
 import "./style.css"
 

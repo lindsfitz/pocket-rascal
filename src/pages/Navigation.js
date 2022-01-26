@@ -14,7 +14,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
-import AppContext from './AppContext'
+import AppContext from '../AppContext'
 
 
 const TutorialDialog = styled(Dialog)(({ theme }) => ({

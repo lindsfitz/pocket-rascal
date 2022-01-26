@@ -588,10 +588,10 @@ class Pinball extends React.Component {
     if (rightTrig) {
       rightTrig.addEventListener('touchstart', () => {
         isRightPaddleUp = true;
-      })
+      }, {passive:true})
       rightTrig.addEventListener('touchend', () => {
         isRightPaddleUp = false;
-      })
+      }, {passive:true})
     }
 
     createSlingshot(1215, 1200)

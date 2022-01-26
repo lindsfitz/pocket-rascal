@@ -6,7 +6,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import IconButton from '@mui/material/IconButton';
 import Popper from '@mui/material/Popper';
 import Chip from '@mui/material/Chip';
-import Navigation from '../../Navigation';
+import Navigation from './../Navigation';
 import AppContext from "./../../AppContext";
 
 

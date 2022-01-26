@@ -2,53 +2,82 @@ import React, { useContext } from 'react';
 import IconButton from "@mui/material/IconButton";
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
-import AppContext from "./../../../AppContext";
-import API from "../../../../utils/API";
+import API from "../../../utils/API";
+import AppContext from "../../../AppContext";
 import Button from "@mui/material/Button";
 import "./store.css";
 
-const mouthData = [
+
+const itemData = [
   {
-    img: 'mouth_simple',
-    title: 'Simple Smirk',
+    img: 'arm_default',
+    title: 'Stick Arms',
+    price: 25,
+    level: 0,
+    size: 2.8
+  },
+  {
+    img: 'arm_glove',
+    title: 'Gloved Arms',
     price: 50,
-    level: 0
+    level: 0,
+    size: 3.4
   },
   {
-    img: 'mouth_frown',
-    title: 'Sad Mouth',
+    img: 'party_hat',
+    title: 'Party Hat',
     price: 50,
-    level: 0
+    level: 0,
+    size: 1.7
   },
   {
-    img: 'mouth_grin',
-    title: 'Big Ol Grin',
+    img: 'cat_ear',
+    title: 'Cat Ear',
+    price: 75,
+    level: 0,
+    size: 1.4//TODO: double check this
+  },
+  {
+    img: 'top_hat',
+    title: 'Top Hat',
     price: 100,
-    level: 0
+    level: 0,
+    size: 2.2
   },
   {
-    img: 'mouth_braces',
-    title: 'Brace Face',
+    img: 'waffle_cone',
+    title: 'Waffle Cone',
     price: 100,
-    level: 0
+    level: 0,
+    size: 1.7
   },
   {
-    img: 'mouth_hillbilly',
-    title: 'Hillbilly',
+    img: 'devil_tail',
+    title: 'Devil Tail',
     price: 150,
-    level: 0
+    level: 0,
+    size: 3.4//TODO: double check this
   },
   {
-    img: 'mouth_lipstick',
-    title: 'Lipstick',
-    price: 150,
-    level: 0
+    img: 'dummy_cap',
+    title: 'Dummy Cap',
+    price: 200,
+    level: 0,
+    size: 2.5//TODO: double check this
+  },
+  {
+    img: 'cherry',
+    title: 'Cherry Hat',
+    price: 250,
+    level: 0,
+    size: 2.5
   },
 ]
 
 
 
-export default function StoreMouth(props) {
+
+export default function StoreItem(props) {
 
   const myContext = useContext(AppContext);
 
@@ -108,50 +137,51 @@ export default function StoreMouth(props) {
     </React.Fragment>
   );
 
-    //functions for get more coins dialog
-    const [moreCoins, setMoreCoins] = React.useState(false);
+  //functions for get more coins dialog
+  const [moreCoins, setMoreCoins] = React.useState(false);
 
-    const handleMoreCoins = () => {
-      setMoreCoins(true);
-    };
-  
-    const handleCloseCoins = (event, reason) => {
-      if (reason === "clickaway") {
-        return;
-      }
-  
-      setMoreCoins(false);
-    };
-  
-    const moreCoinsFail = (
-      <React.Fragment>
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={handleCloseCoins}
-        >
-          <CloseIcon fontSize="small" />
-        </IconButton>
-      </React.Fragment>
-    );
+  const handleMoreCoins = () => {
+    setMoreCoins(true);
+  };
 
-    const saveNewItem = (item) => {
-        const newItem = {
-            name: item.img,
-            equipped: false,
-            type: 'mouth'
-        }
+  const handleCloseCoins = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
 
-        console.log(myContext.unlockItems);
-        if (myContext.unlockItems.length > 0) {
-            myContext.setUnlockItems([...myContext.unlockItems, newItem]);
-        } else {
-            myContext.setUnlockItems([newItem]);
-        }
-        API.addUnlockedItem(myContext.userRascal.id, newItem);
-        console.log(myContext.unlockItems);
-    };
+    setMoreCoins(false);
+  };
+
+  const moreCoinsFail = (
+    <React.Fragment>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseCoins}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+  const saveNewItem = (item) => {
+    const newItem = {
+      name: item.img,
+      size: item.size,
+      equipped: false,
+      type: 'item'
+    }
+
+    console.log(myContext.unlockItems);
+    if (myContext.unlockItems.length > 0) {
+      myContext.setUnlockItems([...myContext.unlockItems, newItem]);
+    } else {
+      myContext.setUnlockItems([newItem]);
+    }
+    API.addUnlockedItem(myContext.userRascal.id, newItem);
+    console.log(myContext.unlockItems);
+  }
 
     //update the coin value displayed at the bottom of store window
     const purchaseItem = (item) => {
@@ -187,11 +217,15 @@ export default function StoreMouth(props) {
     }
   }
 
+  const itemsize = (item) => {
+    return (-35 + 8 * (item.size))
+  }
+
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: 20 }}>
-        {mouthData.map((item) => (
+        {itemData.map((item) => (
           <div
             obj={item}
             key={item}
@@ -211,8 +245,8 @@ export default function StoreMouth(props) {
                   alt={item.title}
                   style={{
                     objectFit: "cover",
-                    height: "180px",
-                    objectPosition: "-45px -70px",
+                    height: "100px",
+                    objectPosition: `-5px ${itemsize(item)}px`,
                     // backgroundColor:'white'
                   }}
                   loading="lazy"
@@ -248,5 +282,4 @@ export default function StoreMouth(props) {
       />
     </div>
   );
-
 }

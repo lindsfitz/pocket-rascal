@@ -2,52 +2,55 @@ import React, { useContext } from 'react';
 import IconButton from "@mui/material/IconButton";
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
-import AppContext from "./../../../AppContext";
-import API from "../../../../utils/API";
-import Button from "@mui/material/Button";
+import API from "../../../utils/API";
 import "./store.css";
+import AppContext from "../../../AppContext";
+import Button from "@mui/material/Button";
 
-const noseData = [
+
+const eyeData = [
   {
-    img: 'nose_pinkcarrot',
-    title: 'Lil Pink Nose',
-    price: 25,
-    level: 0
-  },
-  {
-    img: 'nose_clown',
-    title: 'Clown Nose',
+    img: 'eyes_cute',
+    title: 'Cutesie',
     price: 50,
     level: 0
   },
   {
-    img: 'nose_cute',
-    title: 'Button Nose',
+    img: 'eyes_tired',
+    title: 'Tired',
     price: 50,
     level: 0
   },
   {
-    img: 'nose_strong',
-    title: 'Strong Nose',
+    img: 'eyes_caveman',
+    title: 'Caveman',
+    price: 50,
+    level: 0
+  },
+  {
+    img: 'eyes_glasses',
+    title: 'Glasses',
     price: 100,
     level: 0
   },
   {
-    img: 'nose_disguise',
-    title: 'Nose Disguise',
+    img: 'eyes_sunglasses',
+    title: 'Sick Shades',
     price: 150,
     level: 0
   },
+
+
 
 ]
 
 
 
-export default function StoreNose(props) {
+
+export default function StoreEyes(props) {
 
   const myContext = useContext(AppContext);
 
-  //functions for snackbar for successful purchase from store 
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -135,9 +138,8 @@ export default function StoreNose(props) {
     const newItem = {
       name: item.img,
       equipped: false,
-      type: 'nose'
-    }
-
+      type: "eyes",
+    };
     console.log(myContext.unlockItems);
     if (myContext.unlockItems.length > 0) {
       myContext.setUnlockItems([...myContext.unlockItems, newItem]);
@@ -152,15 +154,13 @@ export default function StoreNose(props) {
   const purchaseItem = (item) => {
     if (myContext.userRascal.coins >= item.price) {
       myContext.setUserRascal({...myContext.userRascal, coins:myContext.userRascal.coins-item.price})
-        // myContext.setCoins(myContext.userRascal.coins);
-        handleClick();
-        saveNewItem(item);
+      // myContext.setCoins(myContext.userRascal.coins);
+      handleClick();
+      saveNewItem(item);
     } else {
-        handleFail();
+      handleFail();
     }
-};
-
-
+  };
 
   const checkIfOwned = (item) => {
     var tempArray = []
@@ -183,11 +183,10 @@ export default function StoreNose(props) {
     }
   }
 
-
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: 20 }}>
-        {noseData.map((item) => (
+        {eyeData.map((item) => (
           <div
             obj={item}
             key={item}
@@ -207,8 +206,8 @@ export default function StoreNose(props) {
                   alt={item.title}
                   style={{
                     objectFit: "cover",
-                    height: "180px",
-                    objectPosition: "-45px -60px",
+                    height: "140px",
+                    objectPosition: "-24px -22px",
                     // backgroundColor:'white'
                   }}
                   loading="lazy"
@@ -244,4 +243,5 @@ export default function StoreNose(props) {
       />
     </div>
   );
+
 }

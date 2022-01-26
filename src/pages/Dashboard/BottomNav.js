@@ -3,65 +3,15 @@ import { Animated } from "react-animated-css";
 import Carousel from './Carousel';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import PropTypes from "prop-types";
-import { styled } from "@mui/material/styles";
-import Dialog from "@mui/material/Dialog";
-import DialogTitle from "@mui/material/DialogTitle";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import StoreColors from "./Store/Color";
-import StoreBodies from './Store/Body';
-import StoreEyes from './Store/Eyes';
-import StoreNose from './Store/Nose';
-import StoreMouth from './Store/Mouth';
-import StoreItem from './Store/Items'
-import SavingsIcon from '@mui/icons-material/Savings';
 import './Store/store.css'
 import Snackbar from '@mui/material/Snackbar';
+import StoreDialog from "./Store/Store";
 import AppContext from "./../../AppContext";
-import API from "../../../utils/API";
+import API from "./../../utils/API";
 
 
-
-//functions for item store - dialog pop up window and tab functionality 
-const ItemStoreDialog = styled(Dialog)(({ theme }) => ({
-  "& .MuiDialogContent-root": {
-    padding: theme.spacing(2)
-  },
-  "& .MuiDialogActions-root": {
-    padding: theme.spacing(1)
-  }
-}));
-
-
-const ItemStoreDialogTitle = (props) => {
-  const { children, onClose, ...other } = props;
-
-  return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-      {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500]
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
-    </DialogTitle>
-  );
-};
-
-ItemStoreDialogTitle.propTypes = {
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired
-};
 
 
 
@@ -139,18 +89,11 @@ export default function BottomNav({ openFail, setOpenFail }) {
   //for store modal pop up 
   const [open, setOpen] = React.useState(false);
 
-  //scrollable
-  const [scroll, setScroll] = React.useState('paper');
-
-
-  const handleClickOpen = (scrollType) => () => {
+  const handleClickOpen = () => () => {
     setOpen(true);
-    setScroll(scrollType);
+
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
 
 
   //remove currently equipped item from rascal
@@ -163,40 +106,6 @@ export default function BottomNav({ openFail, setOpenFail }) {
 
   }
 
-
-  //conditional rendering for store items
-  const [storeContent, setStoreContent] = useState('Bodies')
-  const renderStoreContent = () => {
-    if(storeContent === 'Color') {
-      return <StoreColors />
-    }
-    if (storeContent === 'Bodies') {
-      return <StoreBodies />
-    }
-    if (storeContent === 'Eyes') {
-      return <StoreEyes />
-    }
-    if (storeContent === 'Nose') {
-      return <StoreNose />
-    }
-    if (storeContent === 'Mouth') {
-      return <StoreMouth />
-    }
-    if (storeContent === 'Items') {
-      return <StoreItem />
-    }
-  }
-
-  const buttons = [
-    <Button key="one" className="tab" onClick={() => setStoreContent('Color')}>COLOR</Button>,
-    <Button key="two" className="tab" onClick={() => setStoreContent('Bodies')}>BODY</Button>,
-    <Button key="three" className="tab" onClick={() => setStoreContent('Eyes')}>EYES</Button>,
-    <Button key="four" className="tab" onClick={() => setStoreContent('Nose')}>NOSE</Button>,
-    <Button key="five" className="tab" onClick={() => setStoreContent('Mouth')}>MOUTH</Button>,
-    <Button key="six" className="tab" onClick={() => setStoreContent('Items')}>ADD-ONS</Button>,
-  ];
-
-  ///end consts for store 
 
 
   let equippedItemsCopy
@@ -308,7 +217,7 @@ export default function BottomNav({ openFail, setOpenFail }) {
             <Button aria-label="Minigame" onClick={() => myContext.setCurrentPage('Minigame')}>
               <img src="./assets/game.png" alt="game" style={bottomNavBtn} />
             </Button>
-            <Button aria-label="Store" onClick={handleClickOpen('paper')}>
+            <Button aria-label="Store" onClick={handleClickOpen()}>
               <img src="./assets/money.png" alt="money" style={bottomNavBtn} />
             </Button>
             <Button aria-label="Customize" onClick={toggleCustomMenu}>
@@ -317,36 +226,8 @@ export default function BottomNav({ openFail, setOpenFail }) {
           </Box>
         </div>
 
-        <div>
-          <ItemStoreDialog
-            onClose={handleClose}
-            aria-labelledby="customized-dialog-title"
-            open={open}
-            scroll={scroll}
-            sx={{ width: '99%' }}
-          >
-            <ItemStoreDialogTitle
-              id="customized-dialog-title"
-            // onClose={handleClose}
-            >
-              <div id="tab">
-                {buttons}
-              </div>
+        {open && <StoreDialog setOpen={setOpen} open={open} /> }
 
-            </ItemStoreDialogTitle>
-            <div id="store-content">
-              {renderStoreContent()}
-            </div>
-            <div id="bottom-tab">
-              <div startIcon={<SavingsIcon />} className="coins">
-                {`${myContext.userRascal.coins}`}<span>¢</span>
-              </div>
-              <Button autoFocus onClick={handleClose} id="done">
-                Done
-              </Button>
-            </div>
-          </ItemStoreDialog>
-        </div>
 
         <Snackbar
           open={openFail}

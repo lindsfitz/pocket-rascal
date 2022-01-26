@@ -3,7 +3,7 @@ import Slider from 'infinite-react-carousel';
 import Button from '@mui/material/Button';
 import "./carousel.css"
 import AppContext from "./../../AppContext";
-import API from '../../../utils/API'
+import API from './../../utils/API'
 
 export default function Carousel({ prevEvent }) {
 

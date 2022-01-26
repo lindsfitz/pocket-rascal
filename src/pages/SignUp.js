@@ -10,9 +10,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import API from '../../utils/API';
+import API from './../utils/API';
 import { makeStyles } from '@mui/styles';
-import AppContext from './../AppContext'
+import AppContext from '../AppContext'
 
 function Copyright(props) {
   return (
@@ -112,7 +112,7 @@ export default function SignUp(props) {
                     required
                     fullWidth
                     id="email"
-                    value={email}
+                    defaultValue={email}
                     onChange={(e) => setEmail(e.target.value)}
                     label="Email Address"
                     name="email"
@@ -129,7 +129,7 @@ export default function SignUp(props) {
                     label="Password"
                     type="password"
                     id="password"
-                    value={password}
+                    defaultValue={password}
                     onChange={(e) => setPassword(e.target.value)}
                     autoComplete="new-password"
                   />

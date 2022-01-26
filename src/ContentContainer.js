@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy } from "react";
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
-import Scene from './pages/Dashboard/Scene';
-import MiniPlayground from './pages/Minigame/index';
+// import Scene from './pages/Dashboard/Scene';
+// import MiniPlayground from './pages/Minigame/index';
 import CreateRascal from './pages/CreateRascal/index'
 import Dashboard from './pages/Dashboard/Dashboard'
-import API from '../utils/API'
+import API from './utils/API'
 import AppContext from "./AppContext";
+
+const MiniPlayground = lazy(() => import('./pages/Minigame/index'))
+// const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'))
 
 export default function ContentContainer() {
 
@@ -49,10 +52,11 @@ export default function ContentContainer() {
     care: 50,
     coins: 1000
   })
-  const [rascalBodySave,setRascalBodySave]= useState({})
-  const toggleRascal = (value) => {
-    setMyRascal(value)
-  }
+  const [rascalBodySave, setRascalBodySave] = useState({})
+
+  // const toggleRascal = (value) => {
+  //   setMyRascal(value)
+  // }
 
   //unlocked items -- items in the carousel that can be equipped
   const [unlockedItems, setUnlockedItems] = useState([])
@@ -89,7 +93,7 @@ export default function ContentContainer() {
         setMyRascal(rascalDat.data)
         setEquippedItems(equipDat.data)
         setUnlockedItems(unlockDat.data)
-        if (currentPage !== "Dashboard"){ setCurrentPage("Dashboard") }
+        if (currentPage !== "Dashboard") { setCurrentPage("Dashboard") }
 
 
       }).catch(err => {
@@ -129,42 +133,42 @@ export default function ContentContainer() {
     unlockItems: unlockedItems,
     setUnlockItems: toggleUnlockedItems,
     logOut: logOut,
-    rascalBodySave:rascalBodySave,
-    setRascalBodySave:setRascalBodySave
+    rascalBodySave: rascalBodySave,
+    setRascalBodySave: setRascalBodySave
   }
 
   ///////////////////////////////////////end context save
 
 
   //use effect for rascal level - runs anytime XP is updated
-  
-  useEffect(()=>{
-    if(rascalBodySave.food){
-      const rascUpdate={...rascalBodySave}
-      
-      let newHappy=parseFloat(myRascal.happiness)+(rascUpdate.food/2)
-      if(parseFloat(newHappy)>100){newHappy=100}
-      const newXp=myRascal.xp + rascUpdate.food
-      delete rascUpdate.food
-      setMyRascal({...myRascal,...rascUpdate,happiness:newHappy,xp:newXp})
 
-    }else if(rascalBodySave.suds){
-      const rascUpdate={...rascalBodySave}
-      
-      let newHappy=parseFloat(myRascal.happiness)+(rascUpdate.suds/2)
-      if(parseFloat(newHappy)>100){newHappy=100}
-      const newXp=myRascal.xp + rascUpdate.suds
-      delete rascUpdate.suds
-      setMyRascal({...myRascal,...rascUpdate,happiness:newHappy,xp:newXp})
+  useEffect(() => {
+    if (rascalBodySave.food) {
+      const rascUpdate = { ...rascalBodySave }
 
-    }else{
-      const rascUpdate={...rascalBodySave}
+      let newHappy = parseFloat(myRascal.happiness) + (rascUpdate.food / 2)
+      if (parseFloat(newHappy) > 100) { newHappy = 100 }
+      const newXp = myRascal.xp + rascUpdate.food
+      delete rascUpdate.food
+      setMyRascal({ ...myRascal, ...rascUpdate, happiness: newHappy, xp: newXp })
+
+    } else if (rascalBodySave.suds) {
+      const rascUpdate = { ...rascalBodySave }
+
+      let newHappy = parseFloat(myRascal.happiness) + (rascUpdate.suds / 2)
+      if (parseFloat(newHappy) > 100) { newHappy = 100 }
+      const newXp = myRascal.xp + rascUpdate.suds
+      delete rascUpdate.suds
+      setMyRascal({ ...myRascal, ...rascUpdate, happiness: newHappy, xp: newXp })
+
+    } else {
+      const rascUpdate = { ...rascalBodySave }
       delete rascUpdate.food
       delete rascUpdate.suds
-      setMyRascal({...myRascal,...rascUpdate})
+      setMyRascal({ ...myRascal, ...rascUpdate })
     }
-  },[rascalBodySave])
-  useEffect(()=>{
+  }, [rascalBodySave])
+  useEffect(() => {
     let level = myRascal.level;
     let xp = myRascal.xp
     let xpToLevelUp = myRascal.xpToLevelUp;
@@ -173,13 +177,13 @@ export default function ContentContainer() {
       ++level;
       console.log(level)
       xpToLevelUp = xpToLevelUp + (50 * level)
-      let newXP=xp-xpToLevelUp
-      setMyRascal({ ...myRascal, level: level, xpToLevelUp: xpToLevelUp,xp:newXP })
+      let newXP = xp - xpToLevelUp
+      setMyRascal({ ...myRascal, level: level, xpToLevelUp: xpToLevelUp, xp: newXP })
     }
-    
-    API.updateRascal(userState.id,myRascal)
-    
-  },[myRascal])
+
+    API.updateRascal(userState.id, myRascal)
+
+  }, [myRascal])
 
 
   //render correct content for page 
@@ -194,7 +198,7 @@ export default function ContentContainer() {
       return (
         <div>
           <CreateRascal />
-          <Scene />
+          {/* <Scene /> */}
         </div>
       )
     }

@@ -2,82 +2,48 @@ import React, { useContext } from 'react';
 import IconButton from "@mui/material/IconButton";
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
-import AppContext from "./../../../AppContext";
-import API from "../../../../utils/API";
+import API from "../../../utils/API";
+import AppContext from "../../../AppContext";
 import Button from "@mui/material/Button";
 import "./store.css";
 
-
-const itemData = [
+const noseData = [
   {
-    img: 'arm_default',
-    title: 'Stick Arms',
+    img: 'nose_pinkcarrot',
+    title: 'Lil Pink Nose',
     price: 25,
-    level: 0,
-    size: 2.8
+    level: 0
   },
   {
-    img: 'arm_glove',
-    title: 'Gloved Arms',
+    img: 'nose_clown',
+    title: 'Clown Nose',
     price: 50,
-    level: 0,
-    size: 3.4
+    level: 0
   },
   {
-    img: 'party_hat',
-    title: 'Party Hat',
+    img: 'nose_cute',
+    title: 'Button Nose',
     price: 50,
-    level: 0,
-    size: 1.7
+    level: 0
   },
   {
-    img: 'cat_ear',
-    title: 'Cat Ear',
-    price: 75,
-    level: 0,
-    size: 1.4//TODO: double check this
-  },
-  {
-    img: 'top_hat',
-    title: 'Top Hat',
+    img: 'nose_strong',
+    title: 'Strong Nose',
     price: 100,
-    level: 0,
-    size: 2.2
+    level: 0
   },
   {
-    img: 'waffle_cone',
-    title: 'Waffle Cone',
-    price: 100,
-    level: 0,
-    size: 1.7
-  },
-  {
-    img: 'devil_tail',
-    title: 'Devil Tail',
+    img: 'nose_disguise',
+    title: 'Nose Disguise',
     price: 150,
-    level: 0,
-    size: 3.4//TODO: double check this
+    level: 0
   },
-  {
-    img: 'dummy_cap',
-    title: 'Dummy Cap',
-    price: 200,
-    level: 0,
-    size: 2.5//TODO: double check this
-  },
-  {
-    img: 'cherry',
-    title: 'Cherry Hat',
-    price: 250,
-    level: 0,
-    size: 2.5
-  },
+
 ]
 
 
 
-
-export default function StoreItem(props) {
+export default function StoreNose(props) {
 
   const myContext = useContext(AppContext);
 
@@ -168,9 +134,8 @@ export default function StoreItem(props) {
   const saveNewItem = (item) => {
     const newItem = {
       name: item.img,
-      size: item.size,
       equipped: false,
-      type: 'item'
+      type: 'nose'
     }
 
     console.log(myContext.unlockItems);
@@ -181,19 +146,20 @@ export default function StoreItem(props) {
     }
     API.addUnlockedItem(myContext.userRascal.id, newItem);
     console.log(myContext.unlockItems);
-  }
+  };
 
-    //update the coin value displayed at the bottom of store window
-    const purchaseItem = (item) => {
-      if (myContext.userRascal.coins >= item.price) {
-        myContext.setUserRascal({...myContext.userRascal, coins:myContext.userRascal.coins-item.price})
-            // myContext.setCoins(myContext.userRascal.coins);
-            handleClick();
-            saveNewItem(item);
-        } else {
-            handleFail();
-        }
-    };
+  //update the coin value displayed at the bottom of store window
+  const purchaseItem = (item) => {
+    if (myContext.userRascal.coins >= item.price) {
+      myContext.setUserRascal({...myContext.userRascal, coins:myContext.userRascal.coins-item.price})
+        // myContext.setCoins(myContext.userRascal.coins);
+        handleClick();
+        saveNewItem(item);
+    } else {
+        handleFail();
+    }
+};
+
 
 
   const checkIfOwned = (item) => {
@@ -217,15 +183,11 @@ export default function StoreItem(props) {
     }
   }
 
-  const itemsize = (item) => {
-    return (-35 + 8 * (item.size))
-  }
-
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: 20 }}>
-        {itemData.map((item) => (
+        {noseData.map((item) => (
           <div
             obj={item}
             key={item}
@@ -245,8 +207,8 @@ export default function StoreItem(props) {
                   alt={item.title}
                   style={{
                     objectFit: "cover",
-                    height: "100px",
-                    objectPosition: `-5px ${itemsize(item)}px`,
+                    height: "180px",
+                    objectPosition: "-45px -60px",
                     // backgroundColor:'white'
                   }}
                   loading="lazy"

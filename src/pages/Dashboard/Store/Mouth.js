@@ -2,55 +2,57 @@ import React, { useContext } from 'react';
 import IconButton from "@mui/material/IconButton";
 import Snackbar from '@mui/material/Snackbar';
 import CloseIcon from '@mui/icons-material/Close';
-import AppContext from "./../../../AppContext";
-import API from "../../../../utils/API";
+import API from "../../../utils/API";
+import AppContext from "../../../AppContext";
 import Button from "@mui/material/Button";
 import "./store.css";
 
-
-const eyeData = [
+const mouthData = [
   {
-    img: 'eyes_cute',
-    title: 'Cutesie',
+    img: 'mouth_simple',
+    title: 'Simple Smirk',
     price: 50,
     level: 0
   },
   {
-    img: 'eyes_tired',
-    title: 'Tired',
+    img: 'mouth_frown',
+    title: 'Sad Mouth',
     price: 50,
     level: 0
   },
   {
-    img: 'eyes_caveman',
-    title: 'Caveman',
-    price: 50,
-    level: 0
-  },
-  {
-    img: 'eyes_glasses',
-    title: 'Glasses',
+    img: 'mouth_grin',
+    title: 'Big Ol Grin',
     price: 100,
     level: 0
   },
   {
-    img: 'eyes_sunglasses',
-    title: 'Sick Shades',
+    img: 'mouth_braces',
+    title: 'Brace Face',
+    price: 100,
+    level: 0
+  },
+  {
+    img: 'mouth_hillbilly',
+    title: 'Hillbilly',
     price: 150,
     level: 0
   },
-
-
-
+  {
+    img: 'mouth_lipstick',
+    title: 'Lipstick',
+    price: 150,
+    level: 0
+  },
 ]
 
 
 
-
-export default function StoreEyes(props) {
+export default function StoreMouth(props) {
 
   const myContext = useContext(AppContext);
 
+  //functions for snackbar for successful purchase from store 
   const [open, setOpen] = React.useState(false);
 
   const handleClick = () => {
@@ -106,61 +108,63 @@ export default function StoreEyes(props) {
     </React.Fragment>
   );
 
-  //functions for get more coins dialog
-  const [moreCoins, setMoreCoins] = React.useState(false);
+    //functions for get more coins dialog
+    const [moreCoins, setMoreCoins] = React.useState(false);
 
-  const handleMoreCoins = () => {
-    setMoreCoins(true);
-  };
-
-  const handleCloseCoins = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setMoreCoins(false);
-  };
-
-  const moreCoinsFail = (
-    <React.Fragment>
-      <IconButton
-        size="small"
-        aria-label="close"
-        color="inherit"
-        onClick={handleCloseCoins}
-      >
-        <CloseIcon fontSize="small" />
-      </IconButton>
-    </React.Fragment>
-  );
-
-  const saveNewItem = (item) => {
-    const newItem = {
-      name: item.img,
-      equipped: false,
-      type: "eyes",
+    const handleMoreCoins = () => {
+      setMoreCoins(true);
     };
-    console.log(myContext.unlockItems);
-    if (myContext.unlockItems.length > 0) {
-      myContext.setUnlockItems([...myContext.unlockItems, newItem]);
-    } else {
-      myContext.setUnlockItems([newItem]);
-    }
-    API.addUnlockedItem(myContext.userRascal.id, newItem);
-    console.log(myContext.unlockItems);
-  };
+  
+    const handleCloseCoins = (event, reason) => {
+      if (reason === "clickaway") {
+        return;
+      }
+  
+      setMoreCoins(false);
+    };
+  
+    const moreCoinsFail = (
+      <React.Fragment>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleCloseCoins}
+        >
+          <CloseIcon fontSize="small" />
+        </IconButton>
+      </React.Fragment>
+    );
 
-  //update the coin value displayed at the bottom of store window
-  const purchaseItem = (item) => {
-    if (myContext.userRascal.coins >= item.price) {
-      myContext.setUserRascal({...myContext.userRascal, coins:myContext.userRascal.coins-item.price})
-      // myContext.setCoins(myContext.userRascal.coins);
-      handleClick();
-      saveNewItem(item);
-    } else {
-      handleFail();
-    }
-  };
+    const saveNewItem = (item) => {
+        const newItem = {
+            name: item.img,
+            equipped: false,
+            type: 'mouth'
+        }
+
+        console.log(myContext.unlockItems);
+        if (myContext.unlockItems.length > 0) {
+            myContext.setUnlockItems([...myContext.unlockItems, newItem]);
+        } else {
+            myContext.setUnlockItems([newItem]);
+        }
+        API.addUnlockedItem(myContext.userRascal.id, newItem);
+        console.log(myContext.unlockItems);
+    };
+
+    //update the coin value displayed at the bottom of store window
+    const purchaseItem = (item) => {
+      if (myContext.userRascal.coins >= item.price) {
+        myContext.setUserRascal({...myContext.userRascal, coins:myContext.userRascal.coins-item.price})
+            // myContext.setCoins(myContext.userRascal.coins);
+            handleClick();
+            saveNewItem(item);
+        } else {
+            handleFail();
+        }
+    };
+
 
   const checkIfOwned = (item) => {
     var tempArray = []
@@ -183,10 +187,11 @@ export default function StoreEyes(props) {
     }
   }
 
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ padding: 20 }}>
-        {eyeData.map((item) => (
+        {mouthData.map((item) => (
           <div
             obj={item}
             key={item}
@@ -206,8 +211,8 @@ export default function StoreEyes(props) {
                   alt={item.title}
                   style={{
                     objectFit: "cover",
-                    height: "140px",
-                    objectPosition: "-24px -22px",
+                    height: "180px",
+                    objectPosition: "-45px -70px",
                     // backgroundColor:'white'
                   }}
                   loading="lazy"

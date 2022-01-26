@@ -1,6 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import Matter, { World } from "matter-js";
+import { Engine, Render, Runner, Bodies, Composite, Constraint, Mouse, MouseConstraint, Events, World, Body } from "matter-js";
 import "./style.css"
 import AppContext from "./../../AppContext";
 
@@ -13,12 +12,11 @@ class Scene extends React.Component {
 
   static contextType = AppContext;
 
-
+  
   componentDidMount() {
-
+    
     const myContext = this.context;
-
-    // const myContext = useContext(AppContext);
+    
     const ongoingRascal = {
       color:myContext.userRascal.color,
       nose:myContext.userRascal.nose,
@@ -27,22 +25,15 @@ class Scene extends React.Component {
       eyes:myContext.userRascal.eyes,
       coins:myContext.userRascal.coins
     }
+    // const myContext = useContext(AppContext);
 
-    var Engine = Matter.Engine,
-      Render = Matter.Render,
-      Runner = Matter.Runner,
-      Bodies = Matter.Bodies,
-      Composite = Matter.Composite,
-      Constraint = Matter.Constraint,
-      Mouse = Matter.Mouse,
-      MouseConstraint = Matter.MouseConstraint;
 
     var engine = Engine.create({
       gravity: { scale: 0 },
       enableSleeping: true
     });
 
-    Matter.Runner.run(engine);
+    Runner.run(engine);
     
     var world = engine.world;
 
@@ -85,7 +76,7 @@ class Scene extends React.Component {
     setMouseScaleAndOffset()
     window.addEventListener('resize', setMouseScaleAndOffset)
 
-    const bubblecrumbgroup  = Matter.Body.nextGroup(true);
+    const bubblecrumbgroup  = Body.nextGroup(true);
 
     var rascal = Bodies.polygon(2500, 2500, 8, 120, {
       name: "rascal",
@@ -233,7 +224,7 @@ class Scene extends React.Component {
           h // dHeight
         );
         frameNumber += 0.1;
-        // Matter.Engine.update(engine);
+        // Engine.update(engine);
         animation = requestAnimationFrame(rerender);
 
       })();
@@ -515,7 +506,7 @@ class Scene extends React.Component {
 
           world.bodies.every((item, index) => {
             if (item.name === isolate) {
-              Matter.World.remove(world, world.bodies[index])
+              World.remove(world, world.bodies[index])
               return false
             } else {
               return true
@@ -627,14 +618,14 @@ class Scene extends React.Component {
         console.log(itemSource)
         if (itemSource) {
 
-          if (item1) { Matter.World.remove(world, item1) }
-          if (item2) { Matter.World.remove(world, item2) }
-          if (item3) { Matter.World.remove(world, item3) }
-          if (item4) { Matter.World.remove(world, item4) }
-          if (item5) { Matter.World.remove(world, item5) }
-          if (item6) { Matter.World.remove(world, item6) }
-          if (item7) { Matter.World.remove(world, item7) }
-          if (item8) { Matter.World.remove(world, item8) }
+          if (item1) { World.remove(world, item1) }
+          if (item2) { World.remove(world, item2) }
+          if (item3) { World.remove(world, item3) }
+          if (item4) { World.remove(world, item4) }
+          if (item5) { World.remove(world, item5) }
+          if (item6) { World.remove(world, item6) }
+          if (item7) { World.remove(world, item7) }
+          if (item8) { World.remove(world, item8) }
           itemArray.push({
             name: isolate,
             size: parseFloat(itemSource)
@@ -694,7 +685,6 @@ class Scene extends React.Component {
       return new Promise(resolve => setTimeout(resolve, time));
     }
 
-
     //setting up feeding the rascal and the food object disappearing on collision with rascal body
 
     var crumbArray = []
@@ -711,7 +701,7 @@ class Scene extends React.Component {
         var randomy = (2250 + Math.floor(Math.random()*500))
       }
 
-      var food = Matter.Bodies.circle(randomx, randomy, 35, {
+      var food = Bodies.circle(randomx, randomy, 35, {
         label: 'food',
         friction: 0.8,
         animation: 'animation',
@@ -722,7 +712,7 @@ class Scene extends React.Component {
 
       crumbArray.push(food)
 
-      Matter.World.add(engine.world, food)
+      World.add(engine.world, food)
 
       var randomFood = Math.ceil(Math.random()*6)
 
@@ -752,7 +742,7 @@ class Scene extends React.Component {
           w, // dWidth
           h // dHeight
         );
-        // Matter.Engine.update(engine);
+        // Engine.update(engine);
         food.animation = requestAnimationFrame(rerender);
       })();
     }
@@ -765,18 +755,18 @@ class Scene extends React.Component {
 
     function onFoodCollision(pair) {
       if (pair.bodyA.label === "food") {
-        Matter.World.remove(world, pair.bodyA);
+        World.remove(world, pair.bodyA);
         cancelAnimationFrame(pair.bodyA.animation)
       }
       if (pair.bodyB.label === "food") {
-        Matter.World.remove(world, pair.bodyB);
+        World.remove(world, pair.bodyB);
         cancelAnimationFrame(pair.bodyB.animation)
       }
     }
 
     function setUpFeedRascal() {
       var totalCollisions = 0
-      Matter.Events.on(engine, "collisionStart", (event) => {
+      Events.on(engine, "collisionStart", (event) => {
         event.pairs
         .filter((pair) => {
           return detectFoodCollision(pair);
@@ -792,7 +782,7 @@ class Scene extends React.Component {
     function endFeed(totalCollisions) {
       ongoingRascal.food = totalCollisions
       for (let i = 0; i < crumbArray.length; i++) {
-        Matter.World.remove(world,crumbArray[i])
+        World.remove(world,crumbArray[i])
         cancelAnimationFrame(crumbArray[i].animation)
       }
       crumbArray = []
@@ -829,7 +819,7 @@ class Scene extends React.Component {
     
     //setting up washing rascal and the soap getting smaller on collision 
     const createSoap = async () => {
-      soap = Matter.Bodies.rectangle(2150, 2500, 185, 115, {
+      soap = Bodies.rectangle(2150, 2500, 185, 115, {
         label: 'soap',
         friction: 1,
         // isSensor: true,
@@ -837,7 +827,7 @@ class Scene extends React.Component {
           visible: false,
         },
       })
-      Matter.World.add(engine.world, soap)
+      World.add(engine.world, soap)
 
       const soapImage = await new Promise((resolve, reject) => {
         const soapImage = new Image();
@@ -845,10 +835,6 @@ class Scene extends React.Component {
         soapImage.onerror = reject;
         soapImage.src = `./assets/soapbar.png`;
       });
-
-      const w = 200;
-      const h = 200;
-      let frameNumberSoap = 0;
 
       const w = 200;
       const h = 200;
@@ -869,7 +855,7 @@ class Scene extends React.Component {
           w, // dWidth
           h // dHeight
         );
-        // Matter.Engine.update(engine);
+        // Engine.update(engine);
         animationsoap = requestAnimationFrame(rerender);
 
       })();
@@ -878,14 +864,14 @@ class Scene extends React.Component {
     var ducky
 
     const createDucky = async () => {
-      ducky = Matter.Bodies.circle(2850, 2500, 80, {
+      ducky = Bodies.circle(2850, 2500, 80, {
         label: 'ducky',
         friction: 1,
         render: {
           visible: false,
         },
       })
-      Matter.World.add(engine.world, ducky)
+      World.add(engine.world, ducky)
 
       // cancelAnimationFrame(animation);
       const duckyImage = await new Promise((resolve, reject) => {
@@ -914,14 +900,14 @@ class Scene extends React.Component {
           w, // dWidth
           h // dHeight
         );
-        // Matter.Engine.update(engine);
+        // Engine.update(engine);
         animationducky = requestAnimationFrame(rerender);
 
       })();
     }
 
     const createBubble = async (soappos) => {
-      var bubble = Matter.Bodies.circle(soappos.x, soappos.y, 30, {
+      var bubble = Bodies.circle(soappos.x, soappos.y, 30, {
         label: 'bubble',
         frictionAir: 0.8,
         render: {
@@ -931,7 +917,7 @@ class Scene extends React.Component {
           group: bubblecrumbgroup
         },
       })
-      Matter.World.add(engine.world, bubble)
+      World.add(engine.world, bubble)
 
       var animationbubble
 
@@ -963,7 +949,7 @@ class Scene extends React.Component {
           w, // dWidth
           h // dHeight
         );
-        // Matter.Engine.update(engine);
+        // Engine.update(engine);
         animationbubble = requestAnimationFrame(rerender);
         delay(1250 + Math.floor(Math.random()*500)).then(()=>cancelAnimationFrame(animationbubble))
 
@@ -991,7 +977,7 @@ class Scene extends React.Component {
     function setUpWashRascal() {
       var totalCollisions = 0;
       // var washFinished = false
-      Matter.Events.on(engine, 'collisionEnd', function (event) {
+      Events.on(engine, 'collisionEnd', function (event) {
         event.pairs
         .filter((pair) => {
           return detectSoapCollision(pair);
@@ -1006,9 +992,9 @@ class Scene extends React.Component {
 
     function endWash(totalCollisions,soap) {
       soapsplosion()
-      Matter.World.remove(world,soap)
+      World.remove(world,soap)
       cancelAnimationFrame(animationsoap)
-      Matter.World.remove(world,ducky)
+      World.remove(world,ducky)
       cancelAnimationFrame(animationducky)
       ongoingRascal.suds = totalCollisions
       myContext.setRascalBodySave({...ongoingRascal})

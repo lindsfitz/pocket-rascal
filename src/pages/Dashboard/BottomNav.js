@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import { Animated } from "react-animated-css";
 import Carousel from './Carousel';
 import Box from '@mui/material/Box';

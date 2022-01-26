@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import Slider from 'infinite-react-carousel';
 import Button from '@mui/material/Button';
 import "./carousel.css"

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import ReactDOM from "react-dom";
 import Matter from "matter-js";
 import MatterAttractors from "matter-attractors"
 import '../minigame.css'

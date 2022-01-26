@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from "react-dom";
 import Matter, { World } from "matter-js";
 import AppContext from "../../AppContext";
 

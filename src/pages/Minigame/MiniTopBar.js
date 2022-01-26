@@ -1,12 +1,8 @@
 import React, { useContext } from "react";
 import Navigation from './../Navigation';
-import AppContext from "../../AppContext";
 
 
 export default function MiniTopBar() {
-
-    const myContext = useContext(AppContext);
-
 
     return (
         <div style={{ paddingTop: 10, paddingBottom: 10, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'black', width: '100%' }}>

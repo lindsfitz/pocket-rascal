@@ -2,13 +2,13 @@ import React, { useState, useEffect, lazy } from "react";
 import SignUp from './pages/SignUp';
 import Login from './pages/Login';
 // import Scene from './pages/Dashboard/Scene';
-// import MiniPlayground from './pages/Minigame/index';
+import MiniPlayground from './pages/Minigame/index';
 import CreateRascal from './pages/CreateRascal/index'
 import Dashboard from './pages/Dashboard/Dashboard'
 import API from './utils/API'
 import AppContext from "./AppContext";
 
-const MiniPlayground = lazy(() => import('./pages/Minigame/index'))
+// const MiniPlayground = lazy(() => import('./pages/Minigame/index'))
 // const Dashboard = lazy(() => import('./pages/Dashboard/Dashboard'))
 
 export default function ContentContainer() {
